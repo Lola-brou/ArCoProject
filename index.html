@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LLM-Assisted Ontology Enrichment — Cultural Heritage</title>
+  <!-- TailwindCSS via CDN for quick start. If you later switch to a build step, replace this with your compiled CSS. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="Project website reporting SPARQL-driven semantic gap analysis and LLM-assisted enrichment for cultural heritage knowledge graphs (ArCo) using the Okame Mask case study." />
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+  <!-- ================= NAVBAR ================= -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur shadow">
+    <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <a href="#top" class="text-lg sm:text-xl font-bold tracking-tight text-blue-700">Heritage KG Enrichment</a>
+      <button id="menuBtn" class="sm:hidden inline-flex items-center justify-center rounded-xl p-2 border border-gray-200" aria-expanded="false" aria-controls="menu">
+        <span class="sr-only">Toggle menu</span>☰
+      </button>
+      <ul id="menu" class="hidden sm:flex items-center gap-5 text-sm font-medium">
+        <li><a href="#intro" class="hover:text-blue-700">Introduction</a></li>
+        <li><a href="#case" class="hover:text-blue-700">Case Study</a></li>
+        <li><a href="#methodology" class="hover:text-blue-700">Methodology</a></li>
+        <li><a href="#challenges" class="hover:text-blue-700">Challenges</a></li>
+        <li><a href="#conclusion" class="hover:text-blue-700">Conclusion</a></li>
+      </ul>
+    </nav>
+    <!-- mobile menu -->
+    <div id="menuPanel" class="sm:hidden hidden border-t border-gray-100 bg-white">
+      <div class="max-w-6xl mx-auto px-4 py-3 grid gap-2 text-sm font-medium">
+        <a class="py-1" href="#intro">Introduction</a>
+        <a class="py-1" href="#case">Case Study</a>
+        <a class="py-1" href="#methodology">Methodology</a>
+        <a class="py-1" href="#challenges">Challenges</a>
+        <a class="py-1" href="#conclusion">Conclusion</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section id="top" class="relative overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+      <div class="max-w-3xl">
+        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-gray-900">LLM‑Assisted Ontology Enrichment for Cultural Heritage KGs</h1>
+        <p class="mt-4 text-lg text-gray-700">A case study using <a href="http://wit.istc.cnr.it/arco/?lang=en" class="text-blue-700 ">ArCo</a> and the Okame Mask to transform sparse records into semantically rich cultural representations.</p>
+      </div>
+    </div>
+  </section>
+
+    <!-- ================= INTRO ================= -->
+    <section id="intro" class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+        <h2 class="text-2xl font-bold mb-4">Introduction</h2>
+        <div class="prose prose-gray max-w-none">
+            <p>
+            Cultural heritage knowledge graphs like 
+            <a href="http://wit.istc.cnr.it/arco/?lang=en" class="text-blue-700 " target="_blank" rel="noopener noreferrer">
+                ArCo (Archival Resource Cultural Ontology)
+            </a> 
+            face significant gaps in semantic richness—many artifacts are described with generic metadata that obscures their unique histories. This project demonstrates how <a href="https://www.sciencedirect.com/science/article/pii/S1532046425000942" class="text-blue-700 " target="_blank" rel="noopener noreferrer">LLM-assisted ontology enrichment</a> can bridge these gaps, using the 
+            <a href="https://traditionalkyoto.com/culture/figures/otafuku/" class="text-blue-700 ">
+                Okame mask
+            </a> 
+            (a Japanese folk artifact in ArCo currently labeled only as <code class="bg-gray-100 px-1 rounded">"MASCHERA"@it</code>) as a case study. By combining 
+            <a href="https://dati.cultura.gov.it/sparql" class="text-blue-700 ">SPARQL querying</a>, prompt engineering, and linked data validation, we transform sparse records into semantically rich cultural representations.
+            </p>
+
+            <p class="mt-4">
+            Our investigation began with the broad <a href="https://dati.beniculturali.it/lodview-arco/ontology/arco/CulturalProperty.html " class="text-blue-700 " target="_blank" rel="noopener noreferrer">Cultural Property class</a> in the ArCo knowledge graph to ensure a comprehensive understanding of how artifacts are documented across different categories. This top-level class encompasses all cultural heritage items in the dataset, from musical instruments to ritual objects, allowing us to systematically evaluate metadata quality. By starting with this wide scope, we could identify systemic patterns—such as inconsistent subclass assignments or overly generic labeling—that might be missed with a narrower initial approach.
+            </p>
+
+            <p class="mt-4">
+            As we analyzed the data, we noticed that certain masks—often labeled simply as <em>"MASCHERA"</em> (Italian for "mask")—exhibited particularly sparse contextual information. This lack of detail, combined with masks’ rich cultural diversity (spanning Japanese Noh theater, Venetian Carnival, and other traditions), made them an ideal candidate for enrichment. We refined our SPARQL queries to isolate mask-related records, filtering for Italian-language labels to maintain consistency with ArCo’s primary metadata. The results confirmed that most mask entries lacked even basic contextual descriptors (e.g., origin, function, or symbolism), highlighting a critical gap in the knowledge graph.
+            </p>
+
+            <p class="mt-4">
+            Choosing masks—and specifically the Okame mask—allowed us to demonstrate how LLM-assisted enrichment could transform minimal records into richly annotated entries. The Okame mask’s clear visual documentation, museum provenance, and layered cultural significance (as a symbol of joy and fertility in Japanese folklore) provided a verifiable "ground truth" for testing our methodology. By starting with the expansive Cultural Property class and then narrowing to masks, we ensured our approach could be adapted to other underserved artifact types, addressing ArCo’s metadata challenges at scale.
+            </p>
+        </div>
+    </section>
+
+  <!-- ================= OBJECTIVES ================= -->
+  <section id="objectives" class="bg-white border-y">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+      <h2 class="text-2xl font-bold mb-6">Objectives</h2>
+      <ol class="list-decimal pl-5 space-y-2">
+        <li><span class="font-semibold">Semantic Gap Analysis:</span> Identify underspecified properties—specifically the Okame mask—in <code>arco:DemoEthnoAnthropologicalHeritage</code> via systematic SPARQL queries.</li>
+        <li><span class="font-semibold">LLM‑Guided Enrichment:</span> Generate RDF for missing typology (<code>arco:hasTypology</code>), cultural context (<code>arco:hasCulturalContext</code>), descriptions (<code>dc:description</code>), and multilingual labels (<code>rdfs:label</code>).</li>
+        <li>Employ <a href="https://en.wikipedia.org/wiki/Large_language_model" class="text-blue-700 " target="_blank" rel="noopener noreferrer">
+                LLMs
+            </a> to support and automate RDF generation.</li>
+        <li>Demonstrate Few‑Shot, Zero‑Shot, and Chain‑of‑Thought prompting for cultural data reasoning.</li>
+        <li><span class="font-semibold">Robust Validation:</span> Ensure technical correctness (EasyRDF) and cultural accuracy (<a href="https://www.museodellecivilta.it/collezioni/" class="text-blue-700 " target="_blank" rel="noopener noreferrer">Museo delle Civiltà</a>).</li>
+        <li>Evaluate limitations when suggested entities are absent from the KG.</li>
+      </ol>
+    </div>
+  </section>
+
+
+    <!-- ================= TECHNOLOGIES & TECHNIQUES ================= -->
+    <section id="tech" class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+    <h2 class="text-3xl font-bold mb-10 text-center">Technologies & Techniques</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- KG Querying -->
+        <div class="p-6 rounded-2xl bg-gradient-to-br from-indigo-50 to-white shadow hover:shadow-lg hover:scale-105 transition">
+        <div class="flex items-center gap-3 mb-3">
+            <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+            <h3 class="font-semibold text-lg">KG Querying</h3>
+        </div>
+        <p class="text-sm text-gray-600 mb-3">SPARQL & YASGUI for cultural heritage data exploration.</p>
+        <div class="flex flex-wrap gap-2">
+            <a href="https://dati.cultura.gov.it/sparql" target="_blank" rel="noopener noreferrer" class="px-3 py-1 text-xs bg-indigo-100 text-indigo-700 rounded-full">SPARQL</a>
+            <a href="https://yasgui.org/" target="_blank" rel="noopener noreferrer" class="px-3 py-1 text-xs bg-indigo-100 text-indigo-700 rounded-full">YASGUI</a>
+        </div>
+        </div>
+
+        <!-- ArCo Ontology -->
+        <div class="p-6 rounded-2xl bg-gradient-to-br from-emerald-50 to-white shadow hover:shadow-lg hover:scale-105 transition">
+        <div class="flex items-center gap-3 mb-3">
+            <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5zm0 20l10-5V9l-10 5-10-5v8l10 5z"/>
+            </svg>
+            <h3 class="font-semibold text-lg">ArCo Ontology</h3>
+        </div>
+        <a href=" http://wit.istc.cnr.it/arco/?lang=en" target="_blank" rel="noopener noreferrer" class="px-3 py-1 text-xs bg-emerald-100 text-emerald-700 rounded-full">ArCo Ontology</a>
+        </div>
+
+        <!-- LLM Prompting -->
+        <div class="p-6 rounded-2xl bg-gradient-to-br from-pink-50 to-white shadow hover:shadow-lg hover:scale-105 transition">
+        <div class="flex items-center gap-3 mb-3">
+            <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M15 9h.01M9 9h.01M8 13h8c0 2-1.5 4-4 4s-4-2-4-4z"/>
+            </svg>
+            <h3 class="font-semibold text-lg">LLM Prompting</h3>
+        </div>
+        <p class="text-sm text-gray-600 mb-3">Ontology-aligned enrichment with advanced LLMs.</p>
+        <div class="flex flex-wrap gap-2">
+            <a href="https://chatgpt.com/" target="_blank" class="px-3 py-1 text-xs bg-pink-100 text-pink-700 rounded-full">ChatGPT</a>
+            <a href="https://gemini.google.com/app?is_sa=1&is_sa=1&android-min-version=301356232&ios-min-version=322.0&campaign_id=bkws&utm_source=sem&utm_source=google&utm_medium=paid-media&utm_medium=cpc&utm_campaign=bkws&utm_campaign=2024enUS_gemfeb&pt=9008&mt=8&ct=p-growth-sem-bkws&gad_source=1&gad_campaignid=20108148196&gbraid=0AAAAApk5BhlVkRvy5kfPGxUKMdIBlL-cw&gclid=CjwKCAjwqKzEBhANEiwAeQaPVThqNO9ek-m5jgkeWQ8UqzsYN09eQaxcSoJH9-n6purjv7BLufrTUBoCXv4QAvD_BwE&gclsrc=aw.ds" target="_blank" class="px-3 py-1 text-xs bg-pink-100 text-pink-700 rounded-full">Gemini</a>
+            <a href="https://www.deepseek.com/" target="_blank" class="px-3 py-1 text-xs bg-pink-100 text-pink-700 rounded-full">DeepSeek</a>
+        </div>
+        </div>
+
+        <!-- Validation -->
+        <div class="p-6 rounded-2xl bg-gradient-to-br from-yellow-50 to-white shadow hover:shadow-lg hover:scale-105 transition">
+        <div class="flex items-center gap-3 mb-3">
+            <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M12 20h9"/>
+            <path d="M12 4v16m0 0H3m9 0l6-8-6-8"/>
+            </svg>
+            <h3 class="font-semibold text-lg">Validation</h3>
+        </div>
+        <p class="text-sm text-gray-600 mb-3">Ensuring cultural accuracy through RDF tools & heritage sources.</p>
+        <div class="flex flex-wrap gap-2">
+            <a href="https://www.easyrdf.org/converter" target="_blank" class="px-3 py-1 text-xs bg-yellow-100 text-yellow-700 rounded-full">EasyRDF</a>
+            <a href="https://www.japan.travel/japan-heritage/" target="_blank" class="px-3 py-1 text-xs bg-yellow-100 text-yellow-700 rounded-full">Japan Heritage sources</a>
+        </div>
+        </div>
+
+        <!-- Publishing -->
+        <div class="p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-white shadow hover:shadow-lg hover:scale-105 transition">
+        <div class="flex items-center gap-3 mb-3">
+            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M4 4h16v16H4z"/>
+            <path d="M8 4v16M16 4v16M4 8h16M4 16h16"/>
+            </svg>
+            <h3 class="font-semibold text-lg">Publishing</h3>
+        </div>
+        <p class="text-sm text-gray-600 mb-3">Linked data dissemination through open platforms.</p>
+        <div class="flex flex-wrap gap-2">
+            <a href="https://pages.github.com/" target="_blank" class="px-3 py-1 text-xs bg-blue-100 text-blue-700 rounded-full">GitHub Pages</a>
+            <a href="https://www.w3.org/TR/turtle/" target="_blank" class="px-3 py-1 text-xs bg-blue-100 text-blue-700 rounded-full">Turtle syntax</a>
+        </div>
+        </div>
+
+        <!-- Prompt Engineering -->
+        <div class="p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-white shadow hover:shadow-lg hover:scale-105 transition">
+        <div class="flex items-center gap-3 mb-3">
+            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M12 20h9"/>
+            <path d="M12 4v16m0 0H3m9 0l6-8-6-8"/>
+            </svg>
+        </div>
+        <p class="text-sm text-gray-600 mb-3">Few-shot prompting for ontology-aligned triple generation.</p>
+        <div class="flex flex-wrap gap-2">
+        </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-white shadow hover:shadow-lg hover:scale-105 transition">
+            <div class="flex items-center gap-3 mb-3">
+            </div>
+            <p class="text-sm text-gray-600 mb-3">Zero-shot prompting for straightforward labeling</p>
+            <div class="flex flex-wrap gap-2">
+            </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-white shadow hover:shadow-lg hover:scale-105 transition">
+            <div class="flex items-center gap-3 mb-3">
+            </div>
+            <p class="text-sm text-gray-600 mb-3">Chain-of-thought (CoT) prompting for nuanced descriptions. </p>
+            <div class="flex flex-wrap gap-2">
+                <!-- <a href="https://www.promptingguide.ai/techniques/fewshot" target="_blank" class="px-3 py-1 text-xs bg-purple-100 text-purple-700 rounded-full">Few-shot</a>
+                <a href="https://www.promptingguide.ai/techniques/zeroshot" target="_blank" class="px-3 py-1 text-xs bg-purple-100 text-purple-700 rounded-full">Zero-shot</a>
+                <a href="https://www.promptingguide.ai/techniques/cot" target="_blank" class="px-3 py-1 text-xs bg-purple-100 text-purple-700 rounded-full">CoT</a> -->
+            </div>
+        </div>
+
+    </div>
+    </section>
+
+    <!-- ================= CASE STUDY ================= -->
+    <section id="case" class="bg-gray-50 border-y">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-16">
+
+        <!-- Section Header -->
+        <div class="text-center space-y-4">
+        <h2 class="text-3xl font-extrabold">Case Study: Okame Mask</h2>
+         <!-- Okame Image -->
+        <div class="max-w-2xl mx-auto">
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+            <img src="Images/OKAME.jpeg" alt="Okame Mask from Museo delle Civiltà" class="w-full object-cover" />
+        </div>
+        <p class="text-gray-600 text-center mt-2 text-sm">
+            Okame Mask – Museo delle Civiltà Collection
+        </p>
+        </div>
+        <p class="text-gray-700 max-w-3xl mx-auto">
+            We chose the <strong>Okame mask</strong> as our case study because it perfectly encapsulated ArCo's metadata challenges while offering strong enrichment opportunities. 
+            Its combination of a generic label (<em>“MASCHERA”</em>) with distinctive characteristics (Japanese origin, folk theater use, and symbolic meaning) allowed us to demonstrate comprehensive improvements - from basic labeling to cultural contextualization.
+            The mask's photographic documentation and museum provenance provided verifiable ground truth, making it an ideal test case for evaluating our LLM-assisted enrichment methodology across multiple semantic dimensions.
+        </p>
+        </div>
+
+        <div class="lg:w-1/2 space-y-4">
+            <h3 class="text-xl font-semibold">TEAM</h3>
+            <p class="text-gray-700">
+                This project was carried out by Lola Brou and Rozana El-Masri as students of the Master’s Degree in Language, Society and Communication at the University of Bologna for Computer Studies and Humanities.
+            </p>
+        </div>
+
+         <h1 class="font-bold text-3xl"> Retrieve Mask Items from ArCo + Choose Mask</h1>
+         <h3 class="text-xl font-semibold">This step is about exploring the ArCo knowledge graph and identifying gaps</h3>
+        <!-- Step 1 + Step 2 -->
+        <div class="lg:flex lg:gap-8 space-y-12 lg:space-y-0">
+        <!-- Step 1 -->
+        <div class="lg:w-1/2 space-y-4">
+            <h3 class="text-xl font-semibold">Use a SPARQL query to list all cultural properties related to masks:</h3>
+            <div class="bg-white rounded-xl shadow overflow-hidden">
+                <img src="images/YASGUI1.jpeg" alt="Screenshot of SPARQL query in YASGUI" class="w-full object-cover pt-2" />
+            </div>
+            <p class="text-gray-700">
+            We began with a focused SPARQL query limited to Italian-language mask records to understand ArCo's baseline representation of these cultural artifacts. 
+            This first query revealed that most masks were labeled with generic terms like <em>“MASCHERA”</em> without cultural or functional specificity, highlighting a systemic <a href="https://en.wikipedia.org/wiki/Metadata" class="text-blue-700 " target="_blank">metadata</a>  gap in the knowledge graph. The 50-result limit provided a manageable sample size to identify patterns while confirming the need for deeper analysis.
+            </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="lg:w-1/2 space-y-4">
+            <h3 class="text-xl font-semibold">MASK RELATED PROPERTIES IN ENGLISH AND ITALIAN SPARQL QUERY </h3>
+            <div class="bg-white rounded-xl shadow overflow-hidden">
+            <img src="images/YASGUI1.jpeg" alt="Screenshot of bilingual SPARQL query in YASGUI" class="w-full object-cover pt-2" />
+            </div>
+            <p class="text-gray-700">
+            The second query broadened the scope to include both Italian and English labels, doubling the result limit to uncover more nuanced records. This approach revealed occasional specialized masks (like <a href="https://en.wikipedia.org/wiki/Bian_lian" class="text-blue-700 " target="_blank">Chinese opera</a> or <a href=" https://www.borneoartifact.com/product-category/tribal-masks/?srsltid=AfmBOopw4mkrwHefuLl-duDYguF-FJpFGUUQv2VhimT8ztYCbRwk7bW5" class="text-blue-700 " target="_blank">Dayak tribal masks</a>) that had richer descriptions, though most entries remained underspecified. Crucially, this bilingual search identified the Okame mask through its unique dc:subject field - a Japanese artifact with exceptional research potential due to its clear cultural identity amidst predominantly European mask records.
+            </p>
+            <div class="bg-white rounded-xl shadow overflow-hidden">
+            <img src="images/Mask_Results.jpeg" alt="Screenshot of bilingual SPARQL query in YASGUI" class="w-full object-cover pt-2" />
+            </div>
+            <p class="text-gray-700">
+            Cf. the <a href="https://w3id.org/arco/resource/DemoEthnoAnthropologicalHeritage/1200539901" class="text-blue-600 hover:">Okame Mask entry in ArCo</a>.
+            </p>
+        </div>
+        </div>
+
+        <!-- Step 3 + Step 4 -->
+        <div class="lg:flex lg:gap-8 space-y-12 lg:space-y-0">
+        <!-- Step 3 -->
+        <div class="lg:w-1/2 space-y-4">
+            <h3 class="text-xl font-semibold">INSPECTING Maschera Okame’s metadata using DESCRIBE in Yasugui. </h3>
+            <div class="bg-white rounded-xl shadow overflow-hidden">
+            <img src="images/DESCRIBE_YASGUI.jpeg" alt="SPARQL mask results table" class="w-full object-cover" />
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="lg:w-1/2 space-y-4">
+            <p class="text-gray-700">
+            To analyze all RDF triples for the Okame mask, we ran a DESCRIBE query in YASGUI:<br> 
+            a. Set up the ArCo endpoint:<br> 
+            b. Paste: DESCRIBE &lt;<a href="https://w3id.org/arco/resource/DemoEthnoAnthropologicalHeritage/1200539901" style="color: blue; text-decoration: underline;">https://w3id.org/arco/resource/DemoEthnoAnthropologicalHeritage/1200539901</a>&gt;<br> 
+            c. Examine RDF triples, ones that include 1200539901 (number associated with the mask)<br>
+            </p>
+        </div>
+        </div>
+
+        <!-- Existing Triples Summary -->
+        <div class="space-y-4">
+        <h3 class="text-xl font-semibold">Existing Metadata Triples</h3>
+        <p class="text-gray-700">
+            Based on the output <strong>(59 results)</strong> we found: 
+        </p>
+        <div class="bg-white rounded-xl shadow overflow-x-auto">
+            <img src="images/EXISTING_TRIPLES.jpeg" alt="Table of existing metadata triples" class="w-full object-contain" />
+        </div>
+        <p class="text-gray-600 text-center mt-2 text-sm">
+            <em>*This table has been simplified for presentation</em>
+        </p>
+        <p class="text-gray-700">
+            The current data is comprised of mostly administrative/technical metadata (catalog numbers, materials) treating cultural artifacts like inventory items. Our enrichments seek to add <a href="https://www.neliti.com/publications/299423/semantics-in-cultural-perspective-overview#:~:text=entire%20community%20exists.-,This%20is%20made%20up%20of%20several%20parts:%20customs%2C%20which%20are,Ade%20Risna%20Sari%20+%201%20other" class="text-blue-700 " target="_blank">cultural semantics</a>, <a href="https://en.wikipedia.org/wiki/Human-readable_medium_and_data" class="text-blue-700 " target="_blank">human-readable descriptions</a>, and multilingual accessibility. 
+        </p>
+        </div>
+
+        <!-- Missing Properties -->
+        <div class="space-y-4">
+        <h3 class="text-xl font-semibold">We identified the following as important missing properties, seeking to enrich them to add  <span class="text-lg font-medium">critical <em>cultural</em> and <em>contextual</em> semantics</span></h3>
+        <ul class="list-disc pl-6 text-gray-700 space-y-1">
+            <li><code class="bg-gray-100 px-1 rounded">Typology - arco:hasTypology</code></li>
+            <li><code class="bg-gray-100 px-1 rounded">Cultural context - arco:hasCulturalContext</code></li>
+            <li><code class="bg-gray-100 px-1 rounded">Description - dc:description</code></li>
+            <li><code class="bg-gray-100 px-1 rounded">More specific label - rdfs:label</code></li>
+        </ul>
+        </div>
+
+    </div>
+    </section>
+
+    <!-- ================= METHODOLOGY ================= -->
+    <section id="methodology" class="bg-white border-y">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-8">
+        
+        <!-- Section Header -->
+        <div class="text-center space-y-3">
+        <h2 class="text-3xl font-extrabold">Methodology</h2>
+        </div>
+
+        <!-- Content -->
+        <div class="prose prose-gray max-w-none text-gray-700">
+        <p>
+            Our enrichment process followed a systematic four-stage approach. First, we conducted a comprehensive analysis of ArCo's knowledge graph using 
+            <a href="https://dati.cultura.gov.it/sparql" target="_blank" class="text-blue-600 ">SPARQL queries</a> to identify over 50 mask-related records, selecting the Okame mask, which is currently classed in 
+            <a href="https://dati.beniculturali.it/lodview-arco-onto/ontology/arco/CulturalProperty.html " target="_blank" class="text-blue-600 ">arco:CulturalProperty</a>, for enrichment due to its unique classification (<code class="bg-gray-100 px-1 rounded">dc:subject "OKAME"</code>), sparse metadata (lacking typology, description, and cultural context), and significant cultural value in Japanese folk traditions. Through DESCRIBE queries, we confirmed specific semantic gaps including missing properties like <code class="bg-gray-100 px-1 rounded">arco:hasTypology</code>, <code class="bg-gray-100 px-1 rounded">arco:hasCulturalContext</code> (which we propose to create as it is not currently part of ArCo’s ontology), <code class="bg-gray-100 px-1 rounded">dc:description</code>, and a culturally-specific label. For each gap, we employed tailored LLM prompting strategies: <a href=" https://www.promptingguide.ai/techniques/fewshot" target="_blank" class="text-blue-600 ">Few-shot</a> examples generated typology and cultural context triples (testing GPT-4, Gemini, and DeepSeek outputs), <a href="https://www.promptingguide.ai/techniques/cot" target="_blank" class="text-blue-600 ">chain-of-thought prompting</a> produced a detailed 3-sentence description of Edo-period origins, and <a href="https://www.promptingguide.ai/techniques/zeroshot" target="_blank" class="text-blue-600 ">zero-shot prompting</a> created concise multilingual labels. We validated all outputs through syntactic checks using EasyRDF and semantic verification against authoritative sources including Japan Heritage documentation and Museo delle Civiltà collection records, ensuring both technical correctness and cultural accuracy. The final selected outputs balanced ArCo's ontological conventions with the need for richer contextualization.
+        </p>
+        </div>
+
+    </div>
+    </section>
+
+    <!-- ================= RDF & PROMPTS ================= -->
+    <section id="examples" class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <h2 class="text-2xl font-bold mb-6">Design RDF triples (using LLMs, <a href="https://yasgui.org/" target="_blank" class="text-blue-600 ">SPARQL</a>, and <a href="https://www.easyrdf.org/converter" target="_blank" class="text-blue-600 ">EasyRDF</a>) and prompt LLMs to generate relevant output. </h2>
+    <h3 class="text-xl font-semibold">1. TYPOLOGY</h3>
+    <!-- RDF Enrichment Overview -->
+    <div class="prose prose-gray max-w-none text-gray-700 space-y-6">
+        <p>
+        Although several masks are present in ArCo as cultural properties (e.g., ‘MASCHERA OKAME’), none are formally linked to a relevant typology such as ‘mask’, ‘theatrical mask’, or ‘folk theatre mask’. This absence highlights a semantic gap in the ontology, which we addressed through LLM-guided RDF enrichment. The earlier DESCRIBE query confirmed that the mask lacked a formal typology classification via <code class="bg-gray-100 px-1 rounded">arco:hasTypology</code>.
+        </p>
+
+        <!-- INSERT MISSING_TYPOLOGY IMAGE -->
+        <div class="bg-gray-100 rounded-xl shadow overflow-hidden text-center">
+        <img src="images/MISSING_TYPOLOGGY.jpeg" alt="Missing Typology Screenshot" class="mx-auto rounded-xl shadow w-full max-w-xl" />
+        </div>
+
+        <p>
+        We used <a href="https://www.promptingguide.ai/techniques/fewshot" target="_blank" class="text-blue-600 ">few-shot LLM prompting</a> to generate RDF triples using ChatGPT, Gemini, and DeepSeek for missing information, generating RDF triples that would assign a suitable typology to the object.
+        </p>
+        <div class=" prose prose-sm max-w-none">
+            <div class="text-center space-y-3">
+                <h2 class="text-xl font-bold">Prompt: Triple Generation</h2>
+            </div>
+            <br>
+            <p>You are an expert in RDF modeling for cultural heritage. Using ArCo ontology, enrich the following cultural item by assigning a more specific typology using the predicate <code>arco:hasTypology</code>. Provide the triple in Turtle syntax.</p>
+
+            <p><strong>Target cultural item:</strong><br>
+            &lt;https://w3id.org/arco/resource/DemoEthnoAnthropologicalHeritage/1200539901&gt;</p>
+
+            <p><strong>Context:</strong><br>
+            This is the "Maschera Okame," a Japanese mask used in folk theater, often representing a cheerful, plump-faced woman symbolizing good fortune and humor.</p>
+
+            <p>Generate one RDF triple that links this object to a specific typology.</p>
+
+            <p><strong>Examples:</strong></p>
+            <pre class="bg-gray-200 p-3 rounded text-sm overflow-x-auto">
+            1. &lt;https://w3id.org/arco/resource/MovableCulturalProperty/1500556890&gt; arco:hasTypology &lt;https://w3id.org/arco/resource/Typology/brass-wind-instrument&gt; .
+            2. &lt;https://w3id.org/arco/resource/MovableCulturalProperty/1200765421&gt; arco:hasTypology &lt;https://w3id.org/arco/resource/Typology/percussion-instrument&gt; .
+            </pre>
+
+            <p>Now generate the triple for the mask.</p>
+        </div>
+        <br>
+        <div class="text-center space-y-3">
+            <h2 class="text-xl font-bold">Output: Triple Generation</h2>
+        </div>
+        <!-- INSERT TYPOLOGY TABLE IMAGE -->
+        <div class="bg-gray-100 rounded-xl shadow overflow-hidden text-center">
+        <img src="images/TYPOLOGY_TABLE.jpeg" alt="Typology Table for Okame Mask" class="mx-auto rounded-xl shadow w-full max-w-xl" />
+        <p class="text-xs text-gray-600 mt-2">Proposed typology RDF triples for the Okame mask from different LLMs.</p>
+        </div>
+
+        <div class="bg-gray-100 rounded-xl shadow p-4 prose prose-sm max-w-none">
+        <p><strong>The models returned the following proposed triples:</strong></p>
+        <ul class="list-disc pl-6 py-8">
+            <li>ChatGPT: <code class="text-green-600">arco:hasTypology &lt;.../folk-theatre-mask&gt;</code></li>
+            <li>DeepSeek: <code class="text-green-600">arco:hasTypology &lt;.../theatrical-mask&gt;</code></li>
+            <li>Gemini: <code class="text-green-600">arco:hasTypology &lt;.../Japanese-mask&gt;</code></li>
+        </ul>
+
+        <p class="pb-4">We then verified whether these proposed typologies already existed in the ArCo knowledge graph. None of them are currently defined as instances of <code class="text-green-600">arco:Typology</code>, indicating that the LLMs had generated <em>hypothetical</em> URIs based on logical linguistic structure — but not on existing ontology terms.
+            <br><br>This result demonstrates both the power and limitation of LLM-based enrichment: While the models can generate semantically reasonable suggestions, human verification is essential to ensure ontology compliance.</p>
+
+        <p class="pb-4">Ultimately, we selected the URI <code class="text-green-600">folk-theatre-mask</code> as the most semantically accurate for the Okame mask. DeepSeek’s <code>theatrical-mask</code> was potentially too broad, while Gemini’s <code>Japanese-mask</code> was categorically incorrect for a typology, fitting better within a cultural context. We then used ChatGPT’s URI in a <code class="text-green-600">CONSTRUCT</code> query to simulate the enrichment as it was the most semantically accurate:</p>
+
+        <pre class="bg-gray-200 p-3 rounded text-sm overflow-x-auto">
+        &lt;https://w3id.org/arco/resource/DemoEthnoAnthropologicalHeritage/1200539901&gt; 
+            arco:hasTypology &lt;https://w3id.org/arco/resource/Typology/folk-theatre-mask&gt; .
+        </pre>
+
+        <p>We validated the triples using <a href="https://www.easyrdf.org/converter" target="_blank" class="text-blue-600 ">EasyRDF’s Turtle parser</a>, confirming their syntactic correctness and readiness for integration into the knowledge graph.</p>
+        </div>
+
+
+        <!-- INSERT CC_TABLE IMAGE -->
+        <div class="bg-gray-100 rounded-xl shadow overflow-hidden text-center">
+        <img src="images/TYPOLOGY_VALIDATION.jpeg" alt="Cultural Context Table for Okame Mask" class="mx-auto rounded-xl shadow w-full max-w-xl" />
+        <p class="text-xs text-gray-600 mt-2">Cultural context RDF triples generated via LLM.</p>
+        </div>
+
+        <p>
+        <span class="font-bold">The proposed new typology URI </span>
+        <a href="https://w3id.org/arco/resource/Typology/folk-theatre-mask" target="_blank" class="text-blue-600 ">
+        https://w3id.org/arco/resource/Typology/folk-theatre-mask
+        </a> 
+        addresses a semantic gap in ArCo's ontology by providing a precise classification for folk theater masks like the Okame mask, which currently lack a distinct category. While ArCo includes broad terms like "maschera teatrale"@it, it fails to distinguish folk traditions
+        (e.g., <a href="https://www.promptingguide.ai/techniques/fewshot" target="_blank" class="text-blue-600 ">Japanese Kagura</a>, <a href="https://en.wikipedia.org/wiki/Commedia_dell%27arte" target="_blank" class="text-blue-600 ">Italian Commedia dell'arte</a>) from <a href="https://www.britannica.com/art/mask-face-covering/Theatrical-uses" target="_blank" class="text-blue-600 ">classical</a> or <a href="https://www.britannica.com/art/mask-face-covering/The-functions-and-forms-of-masks" target="_blank" class="text-blue-600 ">ritual mask types</a>. This enrichment enables accurate scholarly queries while maintaining compatibility with ArCo's structure.
+        </p>
+        <h1 class="font-bold">2. Cultural Context</h1>
+        <p>
+        For the Okame mask, we enriched its metadata by introducing the property 
+        <code class="bg-gray-100 px-1 rounded">arco:hasCulturalContext</code> 
+        as a custom extension to capture the cultural and geographic background of heritage objects. Although the original ArCo record did not specify the mask’s country of origin, purpose, or provenance, adding cultural context helps situate the object within its cultural narrative and significance.
+        <br><br>Because cultural context is a broad and open-ended concept, we decided to use <a href="https://www.promptingguide.ai/techniques/fewshot" target="_blank" class="text-blue-600 ">few-shot prompting</a> to guide the LLMs to produce relevant, precise cultural context descriptions without veering into unrelated details.
+        This approach provided a more robust and reliable output than zero-shot prompting, while not requiring the deeper reasoning processes of chain-of-thought prompting.  
+        </p>
+
+        <p>While the ArCo ontology currently <span class="font-bold">does not define a dedicated property</span> explicitly for cultural context, we proposed using a custom predicate named <code class="bg-gray-100 px-1 rounded">arco:hasCulturalContext</code> to capture this important aspect. This property is intended to express the cultural and geographic background of heritage objects in a human-readable way.</p>
+
+        <p>Since the subject of cultural context is more open-ended than typology, the constraints given in the few-shot prompts so that the LLMs would not extract irrelevant information. </p>
+        <br>
+        <br>
+        <div class="text-center space-y-3">
+            <h2 class="text-xl font-bold">Prompt: Cultural Context</h2>
+        </div>
+        <p>
+        You are an expert in RDF modeling for cultural heritage and linked open data. Your task is to generate RDF triples in Turtle syntax describing the cultural context of heritage objects using the predicate 
+        <code class="bg-gray-100 px-1 rounded">arco:hasCulturalContext</code>.
+        </p>
+
+        <p>
+        Here are some examples related to the Maschera Okame mask:
+        </p>
+
+        <p>
+        Example 1:<br>
+        Resource: 
+        <code class="bg-gray-100 px-1 rounded">https://w3id.org/arco/resource/DemoEthnoAnthropologicalHeritage/1200539901</code><br>
+        Triple:<br>
+        <code class="bg-gray-100 px-1 rounded">
+        &lt;https://w3id.org/arco/resource/DemoEthnoAnthropologicalHeritage/1200539901&gt; arco:hasCulturalContext "The Maschera Okame is a traditional Japanese folk theatre mask originating from Japan, symbolizing good fortune and happiness in local performing arts."@en .
+        </code>
+        </p>
+
+        <p>
+        Example 2:<br>
+        Resource: 
+        <code class="bg-gray-100 px-1 rounded">https://w3id.org/arco/resource/DemoEthnoAnthropologicalHeritage/1200539901</code><br>
+        Triple:<br>
+        <code class="bg-gray-100 px-1 rounded">
+        &lt;https://w3id.org/arco/resource/DemoEthnoAnthropologicalHeritage/1200539901&gt; arco:hasCulturalContext "A papier-mâché mask from Japanese Noh theatre representing a joyful female character."@en .
+        </code>
+        </p>
+
+        <p>
+        Now, generate an RDF triple in Turtle syntax for the following resource, focusing only on its cultural and geographic context:<br><br>
+        Resource: 
+        <code class="bg-gray-100 px-1 rounded">https://w3id.org/arco/resource/DemoEthnoAnthropologicalHeritage/1200539901</code>
+        </p>
+
+        <br>
+        <div class="text-center space-y-3">
+                <h2 class="text-xl font-bold">Output: Cultural Context</h2>
+        </div>
+        <!-- CC_TABLE photo -->
+        <div class="mt-6 p-4 bg-gray-100 rounded-2xl shadow text-center">
+            <img src="images/CC_TABLE.jpeg" alt="Cultural Context Table for Okame Mask" class="mx-auto rounded-xl shadow w-full max-w-xl" />
+        </div>
+        <p>
+            <strong>DeepSeek</strong> generated the best triple in this case. <strong>Gemini</strong> mentioned “Japan” and “Japanese” twice, being redundant, and was missing the declaration of what ArCo is. <strong>ChatGPT</strong>’s results were adequate but mixed the English and Italian “maschera” which could be confusing.
+        </p>
+        <p>
+        <strong>Validation</strong><br>
+        We validated the triples using 
+        <a href="https://www.easyrdf.org/converter" target="_blank" class="text-blue-600 ">EasyRDF’s Turtle parser</a>, confirming their syntactic correctness and readiness for integration into the knowledge graph.
+        </p>
+
+        <!-- CULTURALCONTEXTVALIDATION photo -->
+        <div class="mt-6 p-4 bg-gray-100 rounded-2xl shadow">
+            <h3 class="font-semibold mb-2">Cultural Context Validation</h3>
+            <img src="images/CULTURALCONTEXTVALIDATION.jpeg" alt="Cultural Context Validation for Okame Mask" class="mx-auto rounded-xl shadow w-full max-w-xl" />
+        </div>
+
+        <p>
+        We then queried our triple linking the Okame mask to the cultural context, demonstrating how our enrichment could be programmatically added to the knowledge graph, similarly to the typology portion of our project. Unlike typology whose query uses a URI from ArCo's controlled vocabulary, 
+        <code class="bg-gray-100 px-1 rounded">https://w3id.org/arco/resource/Typology/</code>, 
+        the <code class="bg-gray-100 px-1 rounded">hasCulturalContext</code> property uses a literal string: 
+        <code class="bg-gray-100 px-1 rounded">&lt;.../1208539901&gt; arco:hasCulturalContext "A traditional Japanese folk mask..."@en</code> 
+        to create human-readable descriptions rather than linked data URIs.
+        </p>
+
+        <p>
+        This approach prioritizes human-readable descriptions over formal linked data URIs. If this were a real-world knowledge graph, minting dereferenceable URIs for cultural contexts would add value by enabling <a href="https://en.wikipedia.org/wiki/Interoperability" class="text-blue-600 ">interoperability</a>, <a href="https://support.datacite.org/docs/tracking-provenance" class="text-blue-600 ">provenance tracking</a>, and integration with other datasets. However, for the purposes of this project, literals are pragmatically sufficient—and their use also allows us to critique ArCo’s gaps in modeling contextual knowledge, which often relies on textual descriptions rather than structured vocabularies.
+        </p>
+
+        <p>
+        <strong>3. Description</strong><br>
+        Before we began the prompt, we asked ChatGPT to provide us with information about the Okame mask, to make sure that it aligned with the information we found on <a href="https://traditionalkyoto.com/culture/okameotafuku/#:~:text=Okame%2C%20also%20known%20as%20Uzume,blessed%20with%20Her%20lucky%20nature" class="text-blue-600 ">Japanese cultural websites</a>, and also to give ourselves a better understanding of the material we are enriching.
+        </p>
+
+        <!-- MASK_INFO -->
+        <div class="mt-6 p-4">
+            <img src="images/MASK_INFO.jpeg" alt="Mask" class="mx-auto rounded-xl shadow w-full max-w-xl" />
+            <p class="text-gray-700 pt-4">
+                In researching the other masks in the ArCo ontology, we noticed that some have long, detailed descriptions, such as the <a href="https://dati.beniculturali.it/lodview-arco/resource/DemoEthnoAnthropologicalHeritage/08iccd_modi_7190964508961.html" target="_blank" class="text-blue-600 ">Carnevalesca di Cento Mask</a> 
+                and the <a href="https://dati.beniculturali.it/lodview-arco/resource/DemoEthnoAnthropologicalHeritage/04iccd_modi_8788367728441.html" target="_blank" class="text-blue-600 ">Egetmann-Umzug Mask</a>. 
+                However, the majority of masks in the ArCo ontology have no descriptions. 
+                Through research done on the <a href="https://www.museodellecivilta.it/collezioni/" target="_blank" class="text-blue-600 ">collections of the Museo delle Civiltà</a> 
+                where the Okame mask from the ontology is held, as well as other <a href="https://japanese-clothing.com/blogs/japanese-clothing-blog/japanese-mask-meaning?srsltid=AfmBOophJXoT857Mez4qnvJpoMCI40kABtCQnDhguLib_HzZ4OrkHxhf" target="_blank" class="text-blue-600 ">online resources</a>, 
+                we aimed to add relevant depth that was not redundant to the information we propose for <code class="bg-gray-100 px-1 rounded">arco:hasCulturalContext</code>.
+            </p>
+            <p class="text-gray-700 pt-4">
+                We felt that using the <strong>Chain of Prompt CoT</strong> prompt would be the best for a longer, more detailed description, meant for human comprehension, than a few-shot or zero-shot prompt could provide. This was based on information we gathered when researching the descriptions of <strong>other masks in ArCo</strong>.
+            </p>
+            <p class="text-gray-700 pt-4">
+                We also asked the three LLMs to describe the Okame Mask, in order to prompt an LLM to generate valuable knowledge:
+            </p>
+            <br>
+            <div class="text-center space-y-3">
+                <h2 class="text-xl font-bold">Prompt: Okame Mask Description</h2>
+            </div>
+            <div class="my-4">
+                <pre class="bg-gray-800 text-yellow-200 text-sm p-4 rounded-xl overflow-x-auto shadow-inner">
+                <code>Generate a 3-5 sentence dc:description for the Okame Mask in Turtle syntax. Include:
+                1. Origin & History: Japanese folk tradition (Edo period?).
+                2. Material/Technique: Painted papier-mâché (from ArCo’s data).
+                3. Visual Traits: Round face, red cheeks, smiling expression.
+                4. Symbolism: Represents Okame (Otafuku), goddess of joy/fertility.
+                5. Usage: Worn in festivals (e.g., Kagura) and folk theater.
+                Avoid redundancy with arco:hasCulturalContext. Output format:
+                turtle
+                &lt;https://w3id.org/arco/resource/DemoEthnoAnthropologicalHeritage/1200539901&gt;
+                    dc:description \"[text]\"@en .
+                ```</code>
+                </pre>
+            </div>
+
+            <br>
+            <div class="text-center space-y-3">
+                <h2 class="text-xl font-bold">Output: Okame Mask Description</h2>
+            </div>
+            <div class="py-4"><img src="images/DESCRIPTION_COMPARISON.jpeg" alt="Mask" class="mx-auto rounded-xl shadow w-full max-w-xl" /></div>
+            <br><br>
+            <p class="text-gray-700">
+                <strong>Reasoning</strong><br><br>
+                The optimal description was selected through rigorous evaluation against three criteria: 
+                (1) depth (encompassing history, symbolism, and usage), 
+                (2) accuracy (cross-referenced with authoritative sources like <a href="https://www.japan.travel/japan-heritage/" target="_blank" class="text-blue-600 ">Japan Heritage</a>), 
+                and (3) readability (fluency without redundancy).<br><br>
+                ChatGPT’s output emerged as the strongest candidate for its comprehensive yet concise synthesis of the
+                 Okame mask’s <a href="https://en.wikipedia.org/wiki/Edo_period" target="_blank" class="text-blue-600 ">Edo-period</a> origins, 
+                <a href="https://en.wikipedia.org/wiki/Papier-m%C3%A2ch%C3%A9" target="_blank" class="text-blue-600 ">papier-mâché</a> construction, 
+                and role in <a href="https://www.japan.travel/en/spot/1/" target="_blank" class="text-blue-600 ">Kagura festivals</a>, while distinguishing it from formal <a href="https://en.wikipedia.org/wiki/Noh" target="_blank" class="text-blue-600 ">Noh theater</a> traditions.
+            </p>
+            <p class="text-gray-700 pt-4">
+                This extended description aligns with ArCo’s stylistic conventions, mirroring the granularity seen in records for <a href="https://dati.cultura.gov.it/sparql?default-graph-uri=&query=PREFIX+arco%3A+%3Chttps%3A%2F%2Fw3id.org%2Farco%2Fontology%2Farco%2F%3E%0D%0APREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0A%0D%0ASELECT+DISTINCT+%3Fitem+%3Flabel+WHERE+%7B%0D%0A++%3Fitem+a+arco%3ACulturalProperty+%3B%0D%0A++++++++rdfs%3Alabel+%3Flabel+.%0D%0A++FILTER%28LANG%28%3Flabel%29+%3D+%22it%22%29%0D%0A++FILTER%28CONTAINS%28LCASE%28%3Flabel%29%2C+%22maschera%22%29%29%0D%0A%7D%0D%0AORDER+BY+ASC%28%3Flabel%29%0D%0ALIMIT+50%0D%0A%0D%0A&format=text%2Fhtml&timeout=0&signal_void=on" target="_blank" class="text-blue-600 ">comparable artifacts</a>. It delivers critical value to researchers by clarifying the mask’s historical context and performative function—filling gaps left by broader properties like <code class="bg-gray-100 px-1 rounded">hasCulturalContext</code>, balancing detail with brevity, avoiding redundancy while enriching the knowledge graph’s semantic utility.
+            </p>
+        </div>
+
+        <!-- EASY RDF INPUT & Description Validation -->
+        <div class="mt-6 p-4">
+            <h3 class="font-semibold mb-2">Input into EasyRDF</h3>
+            <pre class="bg-gray-900 text-green-400 text-sm p-4 rounded-xl overflow-x-auto shadow-inner">
+        <code>@prefix arco: &lt;https://w3id.org/arco/ontology/core#&gt; .
+        @prefix dc: &lt;http://purl.org/dc/elements/1.1/&gt; .
+        &lt;https://w3id.org/arco/resource/DemoEthnoAnthropologicalHeritage/1200539901&gt;
+            dc:description "The Okame Mask is a traditional Japanese folk artifact crafted
+            from painted papier-mâché, depicting the benevolent goddess Okame (Otafuku) with a
+            round, smiling face and red cheeks. Originating in the Edo period, it symbolizes
+            joy, fertility, and good fortune, often used in Kagura dances and regional
+            festivals. As a staple of folk theater, the mask embodies the playful spirit of
+            Japanese folklore, contrasting with more solemn Noh masks."@en .</code>
+            </pre>
+
+            <br><br>
+            </div>
+            <p class="text-gray-700 mt-4">
+                <strong>Result</strong>
+            </p>
+            <div class="py-4"><img src="images/DESCRIPTIONVALIDATION.jpeg" alt="Mask" class="mx-auto rounded-xl shadow w-full max-w-xl" />
+            </div>
+            <br><br>
+            <h3 class="font-semibold mt-6 mb-2">4. Label Modification</h3>
+            <p class="text-gray-700">
+                The current label, <code class="bg-gray-100 px-1 rounded">"MASCHERA"@it</code>, is overly generic and fails to capture the unique identity of the Okame mask within ArCo’s knowledge graph. 
+                As a result, this mask—a culturally significant Japanese artifact with distinct iconography and purpose—is conflated with other masks in queries and semantic searches. 
+                Additionally, the vast majority of masks are catalogued under <a href="https://dati.beniculturali.it/lodview-arco/resource/DemoEthnoAnthropologicalHeritage/1200531909.html" target="_blank" class="text-blue-600 "><code class="bg-gray-100 px-1 rounded">"MASCHERA DELL'OPERA CINESE"</code></a>, 
+                <a href="https://dati.beniculturali.it/lodview-arco/resource/DemoEthnoAnthropologicalHeritage/1200531909.html" target="_blank" class="text-blue-600 "><code class="bg-gray-100 px-1 rounded">"MASCHERA TEATRALE"@it</code></a>, 
+                or simply <a href="https://dati.beniculturali.it/lodview-arco/resource/DemoEthnoAnthropologicalHeritage/1200544268.html" target="_blank" class="text-blue-600 "><code class="bg-gray-100 px-1 rounded">"MASCHERA"@it</code></a> (such as the Okame mask), with none making the distinction between each other, 
+                despite all being <a href="https://dati.cultura.gov.it/sparql?default-graph-uri=&query=PREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0A%0D%0ASELECT+%3Fmask+%3Flabel+WHERE+%7B%0D%0A++%3Fmask+rdfs%3Alabel+%3Flabel+.%0D%0A++FILTER%28CONTAINS%28LCASE%28STR%28%3Flabel%29%29%2C+%22maschera%22%29%29%0D%0A%7D%0D%0ALIMIT+100%0D%0A%0D%0A%0D%0A&format=text%2Fhtml&timeout=0&signal_void=on" target="_blank" class="text-blue-600 ">completely different artifacts</a>. 
+                Our proposal to enrich the label to <code class="bg-gray-100 px-1 rounded">"Maschera Okame"@it</code> serves two critical purposes:
+            </p>
+            <ul class="list-disc pl-6 text-gray-700">
+                <li><strong>Enhanced Searchability:</strong> A more specific label allows for precise retrieval in SPARQL queries (e.g., filtering masks by <code class="bg-gray-100 px-1 rounded">rdfs:label "Maschera Okame"@it</code>). This is particularly valuable for researchers studying Japanese folk art or performance, as it distinguishes the Okame mask from broader categories like theatrical or ritual masks.</li>
+                <li><strong>Cultural Precision:</strong> The Okame mask represents a specific archetype in Japanese folklore (the <a href="https://janbardsley.web.unc.edu/2022/02/otafuku-goddess-of-everyday-life/" target="_blank" class="text-blue-600 ">goddess Okame/Otafuku</a>, symbolizing joy and fertility). The revised label aligns with scholarly terminology and avoids the ambiguity of the original label, which could refer to any mask in the collection.</li>
+            </ul>
+            <p class="text-gray-700 mt-2">
+                For this task, zero-shot prompting is both efficient and appropriate for its simplicity since label updates require minimal contextual reasoning compared to generating descriptions or cultural contexts. This should also be a straightforward task for the inherent consistency in the task. The prompt only needs to enforce language (@it) and specificity ("Okame"), which LLMs handle reliably without examples, making it difficult to garner confusion. Unlike open-ended tasks, label generation has fewer opportunities for hallucination—the output is a direct linguistic modification.
+            </p>
+            <p class="text-gray-700 mt-2">
+                The approach mirrors ArCo’s <a href="http://wit.istc.cnr.it/arco/?lang=en" target="_blank" class="text-blue-600 ">existing practices</a>, where labels are often concise noun phrases (e.g., "Maschera teatrale"@it). By refining the label to reflect the artifact’s cultural identity, we bridge a gap in the ontology’s terminological precision without introducing complexity.
+            </p>
+        </div>
+<!-- LLM Prompt & Label Enrichment -->
+        <div class="mt-6 p-4">
+            <div class="text-center space-y-3">
+                <h2 class="text-xl font-bold">Prompt: Label Enrichment</h2>
+            </div>
+            <br>
+            <pre class="bg-gray-800 text-yellow-200 text-sm p-4 rounded-xl overflow-x-auto shadow-inner">
+        <code>Generate an improved RDF label for an Italian cultural heritage record.
+        Current label: 'MASCHERA'@it (too generic).
+        Context: This is a Japanese Okame mask (folk theater, symbolizes joy).
+        Requirements:
+        Language: Italian (@it). And English (@en).
+        Specificity: Include 'Okame'.
+        Format: Turtle syntax.
+        Output only the triple, no explanations.</code>
+            </pre>
+            
+            <br><br>
+            <div class="text-center space-y-3">
+                <h2 class="text-xl font-bold">Output: Label Enrichment</h2>
+            </div>
+            <br>
+            <img src="images/LABEL_ENRICHMENT.jpeg" alt="Cultural Context Table for Okame Mask" class="mx-auto rounded-xl shadow w-full max-w-xl" />
+
+
+            <h3 class="font-semibold mt-4 mb-2">Explanation</h3>
+            <p class="text-gray-700 pb-4">
+                We propose the use of <a href="https://www.deepseek.com/" target="_blank" class="text-blue-600 ">DeepSeek</a>’s enriched label proposal
+            </p>
+            <pre class="bg-gray-900 text-green-400 text-sm p-4 rounded-xl overflow-x-auto shadow-inner">
+        <code>&lt;https://w3id.org/arco/resource/DemoEthnoAnthropologicalHeritage/1200539901&gt;
+            rdfs:label "Maschera Okame"@it, "Okame Mask"@en ;
+            dc:title "Maschera Okame"@it, "Okame Mask"@en .</code>
+            </pre>
+
+            <p class="text-gray-700 mt-2">
+                as we felt it added the enhanced specificity required to contextualize the Okame mask, while still meeting ArCo’s labeling conventions (use of 1-3 word <a href="https://en.wikipedia.org/wiki/Noun_phrase" target="_blank" class="text-blue-600 ">noun phrases</a> primarily in Italian). 
+                The introduction of multilingual support (Italian and English) improves accessibility for international researchers such as ourselves and aligns with the mask’s existing 
+                <code class="bg-gray-100 px-1 rounded">dc:subject "OKAME"</code> classification. The minimalist approach—using concise "Maschera Okame"@it and "Okame Mask"@en—intentionally avoids redundancy with the richer contextual data 
+                in <code class="bg-gray-100 px-1 rounded">arco:hasCulturalContext</code> and the newly added 
+                <code class="bg-gray-100 px-1 rounded">dc:description</code>. For consistency, this labeling strategy should be cross-referenced with the mask’s other enriched properties (typology, cultural context) to present a unified semantic profile.
+            </p>
+        </div>
+    </div>
+
+    <!-- Label Validation Section -->
+    <div class="mt-6 p-4">
+        <h3 class="font-semibold mb-2">VALIDATION</h3>
+
+        <!-- Validation Image Placeholder -->
+        <div class="my-4 text-center">
+            <img src="images/LABELVALIDATION.jpeg" alt="Label Validation Screenshot" class="mx-auto rounded-xl shadow w-full max-w-xl" />
+        </div>
+
+        <p class="text-gray-700 mt-2">
+            Once again we validated our triple using <a href="https://www.easyrdf.org/converter" target="_blank" class="text-blue-600 ">EasyRDF</a> 
+            to ensure syntactic correctness before documenting them for ArCo. When checking the multilingual label and title updates, 
+            the parser correctly recognized four distinct triples from our Turtle-formatted input. Each language variant 
+            (<code class="bg-gray-100 px-1 rounded">@it</code>, <code class="bg-gray-100 px-1 rounded">@en</code>) for both <code class="bg-gray-100 px-1 rounded">rdfs:label</code> and <code class="bg-gray-100 px-1 rounded">dc:title</code> is treated as a separate triple in RDF. This mirrors ArCo’s real-world requirements, where multilingual labels improve accessibility for Italian and English users, and titles and labels often duplicate values (as seen in other ArCo records).
+        </p>
+
+        <p class="text-gray-700 mt-2">
+            Earlier, properties like <code class="bg-gray-100 px-1 rounded">arco:hasTypology</code> or <code class="bg-gray-100 px-1 rounded">dc:description</code> parsed as single triples because they use one unambiguous value (e.g., a URI for typology, a monolingual literal for description) and align with ArCo’s convention of storing classifications and contextual data without language variants. Our labels follow ArCo’s multilingual pattern (e.g., "MASCHERA TEATRALE"@it). Finally, the parser’s output confirms we’ve avoided syntax errors in our proposal. The four triples here versus one elsewhere reflects intentional design choices for different predicate types. This validation step ensures our enrichments are technically sound before proposing them to ArCo maintainers.
+        </p>
+    </div>
+    </section>
+
+
+
+    <section id="challenges" class="bg-white border-y">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-8">
+            <h3 class="text-2xl font-semibold mt-8">CHALLENGES</h3>
+        <p class="text-gray-700 leading-relaxed mt-2">
+            Throughout the process of enriching the ArCo knowledge graph with LLM-assisted ontology enhancements, several challenges emerged. One major obstacle was the sparsity of metadata in the original records—many artifacts, including the Okame mask, were labeled with generic terms like "MASCHERA" without cultural, historical, or functional context. This lack of specificity made it difficult to generate precise enrichments without relying heavily on external research and LLM inference.
+        </p>
+        <p class="text-gray-700 leading-relaxed mt-2">
+            Another challenge was ontology alignment. While LLMs could generate plausible RDF triples, many suggested properties (e.g., "folk-theatre-mask" for typology) did not exist in ArCo’s controlled vocabulary. This required manual verification and, in some cases, proposing new URIs to fill semantic gaps. Additionally, multilingual consistency posed difficulties—ensuring that labels and descriptions in Italian and English remained accurate and non-redundant required careful prompt engineering and validation.
+        </p>
+        <p class="text-gray-700 leading-relaxed mt-2">
+            One significant challenge was the restricted access to ArCo’s knowledge graph endpoint, which prevented direct implementation of our proposed enrichments. While our generated RDF triples—such as the refined label 
+            <em>"Maschera Okame"@it</em> and <em>"Okame Mask"@en</em>—were syntactically valid and semantically justified, 
+            their actual integration into ArCo would require approval and manual intervention from the project’s maintainers. This limitation underscored a common hurdle in open knowledge graph projects: balancing collaborative enrichment with governance and data integrity controls.
+        </p>
+        <p class="text-gray-700 leading-relaxed mt-2">
+            Additionally, ensuring consistent multilingual representation posed difficulties. 
+            Early LLM outputs occasionally mixed Italian and English terms 
+            (e.g., <em>"Maschera Okame"@en</em> instead of <em>"Okame Mask"@en</em>), 
+            which could confuse users querying the knowledge graph. 
+            Resolving this required explicit prompt constraints to enforce language-specific annotations 
+            (<em>@it</em>, <em>@en</em>) and avoid redundancy between labels and descriptions. This highlighted the need for careful validation when working with multilingual cultural heritage data, where even minor inconsistencies could disrupt interoperability.
+        </p>
+        <p class="text-gray-700 leading-relaxed mt-2">
+            Finally, LLM limitations became apparent when generating cultural context and descriptions. While models like ChatGPT and DeepSeek produced coherent outputs, occasional inaccuracies or overly verbose responses necessitated cross-referencing with authoritative sources (e.g., Museo delle Civiltà records) to ensure correctness. Balancing automation with expert oversight was critical to maintaining the integrity of the enriched data.
+        </p>
+        </div>
+    </section>
+
+
+  <!-- ================= CONCLUSION ================= -->
+  <section id="conclusion" class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <h2 class="text-2xl font-bold mb-4">Conclusion</h2>
+    <p class="max-w-3xl">Despite these challenges, our methodology successfully demonstrated how LLMs can enhance sparse cultural heritage records while adhering to ontological standards. Future work could explore automated validation pipelines or collaborative frameworks to streamline the integration of such enrichments into restricted knowledge graphs like ArCo. By addressing linguistic and governance barriers, this approach could scale to unlock richer semantics across global heritage collections.</p>
+  </section>
+
+<footer class="bg-gray-800 text-gray-400 text-sm py-6">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+    <p>
+        This project was carried out and is maintained by 
+        <a href="https://github.com/rozana" target="_blank" class="text-blue-400 hover:underline">Lola Brou</a>
+         and 
+        <a href="https://github.com/rozana" target="_blank" class="text-blue-400 hover:underline">Rozana El-Masri</a>.
+    </p>
+  </div>
+</footer>
+
+  <!-- Back to top button -->
+  <a href="#top" class="fixed bottom-5 right-5 inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg bg-blue-600 text-white hover:bg-blue-700">↑</a>
+
+  <script>
+    // Mobile menu toggle
+    const btn = document.getElementById('menuBtn');
+    const panel = document.getElementById('menuPanel');
+    btn?.addEventListener('click', () => {
+      panel.classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>
