@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-gray-800">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LLM-Assisted Ontology Enrichment — Cultural Heritage</title>
+  <!-- TailwindCSS via CDN for quick start. If you later switch to a build step, replace this with your compiled CSS. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="Project website reporting SPARQL-driven semantic gap analysis and LLM-assisted enrichment for cultural heritage knowledge graphs (ArCo) using the Okame Mask case study." />
+</head>
+<body class="min-h-screen flex flex-col bg-gray-50 text-gray-800 antialiased">
+  <!-- ================= NAVBAR ================= -->
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur shadow">
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+    <!-- Brand goes to landing page (Introduction) -->
+    <a href="./index.html" class="text-lg sm:text-xl font-bold tracking-tight text-blue-700">
+      Heritage KG Enrichment
+    </a>
+
+    <button id="menuBtn" class="sm:hidden inline-flex items-center justify-center rounded-xl p-2 border border-gray-200" aria-expanded="false" aria-controls="menu">
+      <span class="sr-only">Toggle menu</span>☰
+    </button>
+
+    <ul id="menu" class="hidden sm:flex items-center gap-5 text-sm font-medium">
+      <li><a href="./index.html" class="hover:text-blue-700">Introduction</a></li>
+      <li><a href="./case-study.html" class="hover:text-blue-700">Case Study</a></li>
+      <li><a href="./methodology.html" class="hover:text-blue-700">Methodology</a></li>
+      <li><a href="./challenges.html" class="hover:text-blue-700">Challenges</a></li>
+      <li><a href="./conclusion.html" class="hover:text-blue-700 text-blue-700 underline underline-offset-4">Conclusion</a></li>
+    </ul>
+  </nav>
+
+  <!-- mobile menu -->
+  <div id="menuPanel" class="sm:hidden hidden border-t border-gray-100 bg-white">
+    <div class="max-w-6xl mx-auto px-4 py-3 grid gap-2 text-sm font-medium">
+      <a class="py-1" href="./index.html">Introduction</a>
+      <a class="py-1" href="./case-study.html">Case Study</a>
+      <a class="py-1" href="./methodology.html">Methodology</a>
+      <a class="py-1" href="./challenges.html">Challenges</a>
+      <a class="py-1" href="./conclusion.html">Conclusion</a>
+    </div>
+  </div>
+</header>
+
+
+<main class="flex-1">
+  <!-- ================= CONCLUSION ================= -->
+  <section id="conclusion" class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <h2 class="text-2xl font-bold mb-4">Conclusion</h2>
+    <p class="max-w-3xl">Despite these challenges, our methodology successfully demonstrated how LLMs can enhance sparse cultural heritage records while adhering to ontological standards. Future work could explore automated validation pipelines or collaborative frameworks to streamline the integration of such enrichments into restricted knowledge graphs like ArCo. By addressing linguistic and governance barriers, this approach could scale to unlock richer semantics across global heritage collections.</p>
+  </section>
+
+<div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 text-center">
+  <a href="./index.html" class="inline-block px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800">
+    Back to Introduction
+  </a>
+</div>
+</main>
+
+<footer class="bg-gray-800 text-gray-400 text-sm py-6">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+    <p>
+        This project was carried out and is maintained by 
+        <a href="https://github.com/Lola-brou" target="_blank" class="text-blue-400 hover:underline">Lola Brou</a>
+         and 
+        <a href="https://github.com/rozana" target="_blank" class="text-blue-400 hover:underline">Rozana El-Masri</a>.
+    </p>
+  </div>
+</footer>
+
+  <!-- Back to top button -->
+  <a href="#top" class="fixed bottom-5 right-5 inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg bg-blue-600 text-white hover:bg-blue-700">↑</a>
+
+  <script>
+    // Mobile menu toggle
+    const btn = document.getElementById('menuBtn');
+    const panel = document.getElementById('menuPanel');
+    btn?.addEventListener('click', () => {
+      panel.classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>

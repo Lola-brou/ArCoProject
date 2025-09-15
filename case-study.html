@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-gray-800">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LLM-Assisted Ontology Enrichment — Cultural Heritage</title>
+  <!-- TailwindCSS via CDN for quick start. If you later switch to a build step, replace this with your compiled CSS. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="Project website reporting SPARQL-driven semantic gap analysis and LLM-assisted enrichment for cultural heritage knowledge graphs (ArCo) using the Okame Mask case study." />
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+  <!-- ================= NAVBAR ================= -->
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur shadow">
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+    <!-- Brand goes to landing page (Introduction) -->
+    <a href="./index.html" class="text-lg sm:text-xl font-bold tracking-tight text-blue-700">
+      Heritage KG Enrichment
+    </a>
+
+    <button id="menuBtn" class="sm:hidden inline-flex items-center justify-center rounded-xl p-2 border border-gray-200" aria-expanded="false" aria-controls="menu">
+      <span class="sr-only">Toggle menu</span>☰
+    </button>
+
+    <ul id="menu" class="hidden sm:flex items-center gap-5 text-sm font-medium">
+      <li><a href="./index.html" class="hover:text-blue-700">Introduction</a></li>
+      <li><a href="./case-study.html" class="hover:text-blue-700 text-blue-700 underline underline-offset-4">Case Study</a></li>
+      <li><a href="./methodology.html" class="hover:text-blue-700">Methodology</a></li>
+      <li><a href="./challenges.html" class="hover:text-blue-700">Challenges</a></li>
+      <li><a href="./conclusion.html" class="hover:text-blue-700">Conclusion</a></li>
+    </ul>
+  </nav>
+
+  <!-- mobile menu -->
+  <div id="menuPanel" class="sm:hidden hidden border-t border-gray-100 bg-white">
+    <div class="max-w-6xl mx-auto px-4 py-3 grid gap-2 text-sm font-medium">
+      <a class="py-1" href="./index.html">Introduction</a>
+      <a class="py-1" href="./case-study.html">Case Study</a>
+      <a class="py-1" href="./methodology.html">Methodology</a>
+      <a class="py-1" href="./challenges.html">Challenges</a>
+      <a class="py-1" href="./conclusion.html">Conclusion</a>
+    </div>
+  </div>
+</header>
+
+
+    <!-- ================= CASE STUDY ================= -->
+    <section id="case" class="bg-gray-50 border-y">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-16">
+
+        <!-- Section Header -->
+        <div class="text-center space-y-4">
+        <h2 class="text-3xl font-extrabold">Case Study: Okame Mask</h2>
+         <!-- Okame Image -->
+        <div class="max-w-xl mx-auto">
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+            <img src="images/OKAME.jpeg" alt="Okame Mask from Museo delle Civiltà" class="w-full object-cover" />
+        </div>
+        <p class="text-gray-600 text-center mt-2 text-sm">
+            Okame Mask – Museo delle Civiltà Collection
+        </p>
+        </div>
+        <p class="text-gray-700 max-w-3xl mx-auto">
+            We chose the <strong>Okame mask</strong> as our case study because it perfectly encapsulated ArCo's metadata challenges while offering strong enrichment opportunities. 
+            Its combination of a generic label (<em>“MASCHERA”</em>) with distinctive characteristics (Japanese origin, folk theater use, and symbolic meaning) allowed us to demonstrate comprehensive improvements - from basic labeling to cultural contextualization.
+            The mask's photographic documentation and museum provenance provided verifiable ground truth, making it an ideal test case for evaluating our LLM-assisted enrichment methodology across multiple semantic dimensions.
+        </p>
+        </div>
+
+        <div class="lg:w-full space-y-4">
+            <h3 class="text-xl font-semibold">Team</h3>
+            <p class="text-gray-700">
+                This project was carried out by Lola Brou and Rozana El-Masri as students of the Master’s Degree in Language, Society and Communication at the University of Bologna for Computer Studies and Humanities.
+            </p>
+        </div>
+
+         <h1 class="font-bold text-3xl"> Retrieve Mask Items from ArCo + Choose Mask</h1>
+         <h3 class="text-xl font-semibold">This step is about exploring the ArCo knowledge graph and identifying gaps</h3>
+        <!-- Step 1 + Step 2 -->
+        <div class="space-y-12">
+        <!-- Step 1 -->
+        <div class="space-y-4">
+            <h3 class="text-xl font-semibold">Use a SPARQL query to list all cultural properties related to masks:</h3>
+            <div class="bg-white rounded-xl shadow overflow-hidden">
+                <img src="images/YASGUI1.jpeg" alt="Screenshot of SPARQL query in YASGUI" class="w-3/4 object-contain pt-2" />
+            </div>
+            <p class="text-gray-700">
+            We began with a focused SPARQL query limited to Italian-language mask records to understand ArCo's baseline representation of these cultural artifacts. 
+            This first query revealed that most masks were labeled with generic terms like <em>“MASCHERA”</em> without cultural or functional specificity, highlighting a systemic <a href="https://en.wikipedia.org/wiki/Metadata" class="text-blue-700 " target="_blank">metadata</a>  gap in the knowledge graph. The 50-result limit provided a manageable sample size to identify patterns while confirming the need for deeper analysis.
+            </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="space-y-4">
+            <h3 class="text-xl font-semibold">Mask-related Properties in English and Italian SPARQL Query </h3>
+            <div class="bg-white rounded-xl shadow overflow-hidden">
+            <img src="images/YASGUI2.jpeg" alt="Screenshot of bilingual SPARQL query in YASGUI" class="w-3/4 object-cover pt-2" />
+            </div>
+            <p class="text-gray-700">
+            The second query broadened the scope to include both Italian and English labels, doubling the result limit to uncover more nuanced records. This approach revealed occasional specialized masks (like <a href="https://en.wikipedia.org/wiki/Bian_lian" class="text-blue-700 " target="_blank">Chinese opera</a> or <a href=" https://www.borneoartifact.com/product-category/tribal-masks/?srsltid=AfmBOopw4mkrwHefuLl-duDYguF-FJpFGUUQv2VhimT8ztYCbRwk7bW5" class="text-blue-700 " target="_blank">Dayak tribal masks</a>) that had richer descriptions, though most entries remained underspecified. Crucially, this bilingual search identified the Okame mask through its unique dc:subject field - a Japanese artifact with exceptional research potential due to its clear cultural identity amidst predominantly European mask records.
+            </p>
+            <div class="bg-white rounded-xl shadow overflow-hidden">
+            <img src="images/Mask_Results.jpeg" alt="Screenshot of bilingual SPARQL query in YASGUI" class="w-full object-cover pt-2" />
+            </div>
+            <p class="text-gray-700">
+            Cf. the <a href="https://w3id.org/arco/resource/DemoEthnoAnthropologicalHeritage/1200539901" class="text-blue-600 hover:">Okame Mask entry in ArCo</a>.
+            </p>
+        </div>
+        </div>
+
+        <!-- Step 3 + Step 4 -->
+        <div class="space-y-12">
+        <!-- Step 3 -->
+        <div class="space-y-4">
+            <h3 class="text-xl font-semibold">INSPECTING Maschera Okame’s metadata using DESCRIBE in Yasugui. </h3>
+            <div class="bg-white rounded-xl shadow overflow-hidden">
+            <img src="images/DESCRIBE_YASGUI.jpeg" alt="SPARQL mask results table" class="w-full object-cover" />
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="space-y-4">
+            <p class="text-gray-700">
+            To analyze all RDF triples for the Okame mask, we ran a DESCRIBE query in YASGUI:<br> 
+            a. Set up the ArCo endpoint:<br> 
+            b. Paste: DESCRIBE &lt;<a href="https://w3id.org/arco/resource/DemoEthnoAnthropologicalHeritage/1200539901" style="color: blue; text-decoration: underline;">https://w3id.org/arco/resource/DemoEthnoAnthropologicalHeritage/1200539901</a>&gt;<br> 
+            c. Examine RDF triples, ones that include 1200539901 (number associated with the mask)<br>
+            </p>
+        </div>
+        </div>
+
+        <!-- Existing Triples Summary -->
+        <div class="space-y-4">
+        <h3 class="text-xl font-semibold">Existing Metadata Triples</h3>
+        <p class="text-gray-700">
+            Based on the output <strong>(59 results)</strong> we found: 
+        </p>
+        <div class="bg-white rounded-xl shadow overflow-x-auto">
+            <img src="images/EXISTING_TRIPLES.jpeg" alt="Table of existing metadata triples" class="w-2/3 object-contain mx-auto" />
+        </div>
+        <p class="text-gray-600 text-center mt-2 text-sm">
+            <em>*This table has been simplified for presentation</em>
+        </p>
+        <p class="text-gray-700">
+            The current data is comprised of mostly administrative/technical metadata (catalog numbers, materials) treating cultural artifacts like inventory items. Our enrichments seek to add <a href="https://www.neliti.com/publications/299423/semantics-in-cultural-perspective-overview#:~:text=entire%20community%20exists.-,This%20is%20made%20up%20of%20several%20parts:%20customs%2C%20which%20are,Ade%20Risna%20Sari%20+%201%20other" class="text-blue-700 " target="_blank">cultural semantics</a>, <a href="https://en.wikipedia.org/wiki/Human-readable_medium_and_data" class="text-blue-700 " target="_blank">human-readable descriptions</a>, and multilingual accessibility. 
+        </p>
+        </div>
+
+        <!-- Missing Properties -->
+        <div class="space-y-4">
+        <h3 class="text-xl font-semibold">We identified the following as important missing properties, seeking to enrich them to add  <span class="text-lg font-medium">critical <em>cultural</em> and <em>contextual</em> semantics</span></h3>
+        <ul class="list-disc pl-6 text-gray-700 space-y-1">
+            <li><code class="bg-gray-100 px-1 rounded">Typology - arco:hasTypology</code></li>
+            <li><code class="bg-gray-100 px-1 rounded">Cultural context - arco:hasCulturalContext</code></li>
+            <li><code class="bg-gray-100 px-1 rounded">Description - dc:description</code></li>
+            <li><code class="bg-gray-100 px-1 rounded">More specific label - rdfs:label</code></li>
+        </ul>
+        </div>
+
+    </div>
+    </section>
+
+
+<div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 text-center">
+  <a href="./methodology.html" class="inline-block px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800">
+    Next: Methodology →
+  </a>
+</div>
+
+
+<footer class="bg-gray-800 text-gray-400 text-sm py-6">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+    <p>
+        This project was carried out and is maintained by 
+        <a href="https://github.com/Lola-brou" target="_blank" class="text-blue-400 hover:underline">Lola Brou</a>
+         and 
+        <a href="https://github.com/rozana" target="_blank" class="text-blue-400 hover:underline">Rozana El-Masri</a>.
+    </p>
+  </div>
+</footer>
+
+  <!-- Back to top button -->
+  <a href="#top" class="fixed bottom-5 right-5 inline-flex items-center justify-center w-12 h-12 rounded-full shadow-lg bg-blue-600 text-white hover:bg-blue-700">↑</a>
+
+  <script>
+    // Mobile menu toggle
+    const btn = document.getElementById('menuBtn');
+    const panel = document.getElementById('menuPanel');
+    btn?.addEventListener('click', () => {
+      panel.classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>
